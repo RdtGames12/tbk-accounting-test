@@ -22,10 +22,10 @@ Technical Test PT Trans Berjaya Khatulistiwa
 - Pagination
 
 ## Installation
-composer install
-change .env.example to .env
-php artisan key:generate
-php artisan migrate --seed
-npm install
-npm run build
-php artisan serve
+- composer install
+- change .env.example to .env
+- php artisan key:generate
+- php artisan migrate --seed
+- npm install
+- npm run build
+- php artisan serve
