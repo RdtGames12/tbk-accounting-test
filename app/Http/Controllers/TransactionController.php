@@ -12,36 +12,26 @@ class TransactionController extends Controller
     {
         $query = Transaction::with('coa');
 
-        if ($request->search) {
+       if ($request->filled('search')) {
 
             $search = $request->search;
 
-            $query->where(
-                'description',
-                'like',
-                "%{$search}%"
-            )
-            ->orWhereHas(
-                'coa',
-                function ($q) use ($search) {
+            $query->where(function ($q) use ($search) {
 
-                    $q->where(
-                        'name',
-                        'like',
-                        "%{$search}%"
-                    )
-                    ->orWhere(
-                        'code',
-                        'like',
-                        "%{$search}%"
-                    );
+                $q->where('description', 'like', "%{$search}%")
+                ->orWhereHas('coa', function ($coa) use ($search) {
 
-                }
-            );
+                        $coa->where('name', 'like', "%{$search}%")
+                            ->orWhere('code', 'like', "%{$search}%");
+
+                });
+
+            });
         }
 
         $transactions = $query
-            ->latest()
+            ->orderBy('transaction_date', 'desc')
+            ->orderBy('id', 'desc')
             ->paginate(10)
             ->withQueryString();
 
