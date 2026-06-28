@@ -35,6 +35,7 @@ class CoaController extends Controller
         }
 
         $coas = $query
+            ->orderBy('code')
             ->paginate(10)
             ->withQueryString();
 
